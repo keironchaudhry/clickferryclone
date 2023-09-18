@@ -59,7 +59,7 @@ export default function SearchEngine() {
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
           value={adults}
-          label="Adults *"
+          label="Adults (18+) *"
           onChange={handleAdultsChange}
         >
           <MenuItem value={1}>1</MenuItem>
@@ -78,7 +78,7 @@ export default function SearchEngine() {
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
           value={children}
-          label="Children *"
+          label="Children (4-17) *"
           onChange={handleChildrenChange}
         >
           <MenuItem value={1}>1</MenuItem>
@@ -97,7 +97,7 @@ export default function SearchEngine() {
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
           value={babies}
-          label="Babies *"
+          label="Babies (0-3) *"
           onChange={handleBabiesChange}
         >
           <MenuItem value={1}>1</MenuItem>
