@@ -1,0 +1,18 @@
+.formContainer {
+  border: 1px solid #ccc;
+  margin: 7rem;
+  padding: 10px;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+.gridFlexBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconSize {
+  font-size: 1rem !important;
+}
