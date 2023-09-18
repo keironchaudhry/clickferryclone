@@ -23,6 +23,7 @@ export default function SearchEngine() {
 
   return (
     <Container sx={{ borderRadius: 3 }} className={styles.formContainer}>
+      {/* Destination */}
       <FormControl required sx={{ m: 1, minWidth: 400 }}>
         <InputLabel id="demo-simple-select-required-label">
           Destination...
@@ -41,6 +42,7 @@ export default function SearchEngine() {
           <MenuItem value={"Ceuta - Algeciras"}>Ceuta - Algeciras</MenuItem>
         </Select>
       </FormControl>
+
       {/* Adults */}
       <FormControl sx={{ m: 1, minWidth: 170 }}>
         <InputLabel id="demo-simple-select-readonly-label">
@@ -59,6 +61,8 @@ export default function SearchEngine() {
           <MenuItem value={4}>4</MenuItem>
         </Select>
       </FormControl>
+
+      {/* Children */}
       <FormControl sx={{ m: 1, minWidth: 170 }}>
         <InputLabel id="demo-simple-select-readonly-label">
           Children (4-17)
@@ -76,6 +80,8 @@ export default function SearchEngine() {
           <MenuItem value={4}>4</MenuItem>
         </Select>
       </FormControl>
+
+      {/* Babies */}
       <FormControl sx={{ m: 1, minWidth: 170 }}>
         <InputLabel id="demo-simple-select-readonly-label">
           Babies (0-3)
