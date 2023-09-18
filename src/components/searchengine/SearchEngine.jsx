@@ -125,7 +125,7 @@ export default function SearchEngine() {
         color="success"
         onClick={handleSubmit}
       >
-        Search ferries
+        Search 
       </Button>
     </Container>
   );
