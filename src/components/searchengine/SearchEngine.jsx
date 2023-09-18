@@ -11,13 +11,24 @@ import Button from "@mui/material/Button";
 import styles from "./SearchEngine.module.css";
 
 export default function SearchEngine() {
-  const [passengerData, setPassengerData] = useState("");
+  const [destination, setDestination] = useState("");
+  const [adults, setAdults] = useState(0);
+  const [children, setChildren] = useState(0);
+  const [babies, setBabies] = useState(0);
 
-  const handleChange = (event) => {
-    setPassengerData({
-      ...passengerData,
-      [event.target.name]: event.target.value,
-    });
+  const handleDestinationChange = (event) => {
+    setDestination(event.target.value);
+  };
+  const handleAdultsChange = (event) => {
+    setAdults(event.target.value);
+  };
+
+  const handleChildrenChange = (event) => {
+    setChildren(event.target.value);
+  };
+
+  const handleBabiesChange = (event) => {
+    setBabies(event.target.value);
   };
 
   return (
@@ -30,15 +41,12 @@ export default function SearchEngine() {
         <Select
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"
-          value={passengerData}
+          value={destination}
           label="Destination *"
-          onChange={handleChange}
+          onChange={handleDestinationChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={"Algeciras - Ceuta"}>Algeciras - Ceuta</MenuItem>
-          <MenuItem value={"Ceuta - Algeciras"}>Ceuta - Algeciras</MenuItem>
+          <MenuItem value="algeciras - ceuta">Algeciras - Ceuta</MenuItem>
+          <MenuItem value="ceuta - algeciras">Ceuta - Algeciras</MenuItem>
         </Select>
       </FormControl>
 
@@ -50,9 +58,9 @@ export default function SearchEngine() {
         <Select
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
-          value={passengerData}
-          label="Passengers *"
-          onChange={handleChange}
+          value={adults}
+          label="Adults *"
+          onChange={handleAdultsChange}
         >
           <MenuItem value={1}>1</MenuItem>
           <MenuItem value={2}>2</MenuItem>
@@ -69,9 +77,9 @@ export default function SearchEngine() {
         <Select
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
-          value={passengerData}
-          label="Passengers *"
-          onChange={handleChange}
+          value={children}
+          label="Children *"
+          onChange={handleChildrenChange}
         >
           <MenuItem value={1}>1</MenuItem>
           <MenuItem value={2}>2</MenuItem>
@@ -88,9 +96,9 @@ export default function SearchEngine() {
         <Select
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
-          value={passengerData}
-          label="Passengers *"
-          onChange={handleChange}
+          value={babies}
+          label="Babies *"
+          onChange={handleBabiesChange}
         >
           <MenuItem value={1}>1</MenuItem>
           <MenuItem value={2}>2</MenuItem>
