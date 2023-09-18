@@ -1,0 +1,13 @@
+.formContainer {
+  border: 1px solid #ccc;
+  margin: 5rem auto;
+  padding: 10px;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+.button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
