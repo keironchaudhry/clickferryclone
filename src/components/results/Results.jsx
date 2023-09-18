@@ -7,6 +7,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { Grid } from "@mui/material";
 
 export default function Results() {
+  // This is just a dummy data to show the results
   const rowData = [
     {
       destination: "Algeciras - Ceuta",
@@ -21,6 +22,11 @@ export default function Results() {
       price: "$45.00",
     },
   ];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Selected.");
+  };
 
   return (
     <div>
@@ -45,7 +51,12 @@ export default function Results() {
               Price: {data.price}
             </Grid>
             <Grid item xs={12} lg={2}>
-              <Button variant="contained" color="primary" className="button">
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                className="button"
+              >
                 Select
               </Button>
             </Grid>
