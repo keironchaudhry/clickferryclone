@@ -1,0 +1,24 @@
+.navbarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  background-color: #6F8FAF;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+  height: 100%;
+  padding: 0 1rem;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}

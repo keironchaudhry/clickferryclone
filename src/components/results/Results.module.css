@@ -1,7 +1,6 @@
 .formContainer {
   border: 1px solid #ccc;
   margin: 1rem;
-  padding: 10px;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center;
