@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -15,6 +15,8 @@ export default function SearchEngine() {
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [babies, setBabies] = useState(0);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -34,15 +36,53 @@ export default function SearchEngine() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Data to be submitted...");
+    fetchData();
     setDestination("");
     setAdults(0);
     setChildren(0);
     setBabies(0);
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://tadpole.clickferry.app/departures?route=${destination}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response invalid.");
+      }
+      const apiData = await response.json();
+      setData(apiData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const filterData = () => {
+    const filteredResult = data.filter((item) => {
+      if (destination && item.destination !== destination) {
+        return false;
+      }
+      return true;
+    });
+    setFilteredData(filteredResult);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    filterData();
+  }, [destination]);
+
   return (
     <div>
+      {filteredData.map((item, index) => (
+        <div key={index}>
+          <p>Destination: {item.destination}</p>
+        </div>
+      ))}
       <Container sx={{ borderRadius: 3 }} className={styles.formContainer}>
         {/* Destination */}
         <FormControl required sx={{ m: 1, minWidth: 400 }}>
@@ -56,8 +96,8 @@ export default function SearchEngine() {
             label="Destination *"
             onChange={handleDestinationChange}
           >
-            <MenuItem value="algeciras - ceuta">Algeciras - Ceuta</MenuItem>
-            <MenuItem value="ceuta - algeciras">Ceuta - Algeciras</MenuItem>
+            <MenuItem value="ALGECEUT">Algeciras - Ceuta</MenuItem>
+            <MenuItem value="CEUTALGE">Ceuta - Algeciras</MenuItem>
           </Select>
         </FormControl>
 
