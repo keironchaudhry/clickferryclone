@@ -18,6 +18,7 @@ export default function Results({ destination, filteredData }) {
       {filteredData?.map((item, index) => (
         <div key={index}>
           <p>Destination: {item.operator}</p>
+          <p>Departure: {new Date(item.arrival).toLocaleTimeString()}</p>
         </div>
       ))}
       {/* <Container
