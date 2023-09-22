@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 import styles from "./SearchEngine.module.css";
 import Results from "../results/Results";
@@ -28,8 +29,8 @@ export default function SearchEngine() {
     setSelectedOption(event.target.value);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (selectedDate) => {
+    setSelectedDate(selectedDate);
   };
 
   const handleSubmit = (event) => {
@@ -40,8 +41,10 @@ export default function SearchEngine() {
 
   const fetchData = async () => {
     try {
+      const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
+      console.log(formattedDate);
       const response = await fetch(
-        `https://tadpole.clickferry.app/departures?route=${route}&time${selectedDate}`
+        `https://tadpole.clickferry.app/departures?route=${route}&time=${formattedDate}`
       );
       if (!response.ok) {
         throw new Error("Network response invalid.");
@@ -106,8 +109,9 @@ export default function SearchEngine() {
 
         {selectedOption === "datepicker" && (
           <DatePicker
-            selectedDate={selectedDate}
-            handleDateChange={handleDateChange}
+            value={selectedDate == null ? "null" : selectedDate}
+            onChange={handleDateChange}
+            referenceDate={dayjs("2023-09-22T15:30")}
           />
         )}
 
