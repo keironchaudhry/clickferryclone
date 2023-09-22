@@ -1,12 +1,43 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import styles from "./Results.module.css";
 
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid } from "@mui/material";
+import dayjs from "dayjs";
 
-export default function Results({ destination, filteredData }) {
+export default function Results({
+  route,
+  selectedDate,
+  adults,
+  children,
+  babies,
+  filteredData,
+}) {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, [filteredData, route, selectedDate, adults, children, babies]);
+
+  const fetchData = async () => {
+    try {
+      const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
+      const response = await fetch(
+        `https://tadpole.clickferry.app/accommodations?route=${route}&time=${formattedDate}&adults=${adults}&children=${children}&babies=${babies}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response invalid.");
+      }
+      const apiData = await response.json();
+      setData(apiData);
+      console.log(apiData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,6 +50,11 @@ export default function Results({ destination, filteredData }) {
         <div key={index}>
           <p>Destination: {item.operator}</p>
           <p>Departure: {new Date(item.arrival).toLocaleTimeString()}</p>
+          <p>Ship: {item.ship}</p>
+          <p>Code: {item.code}</p>
+          <p>Name: {item.name}</p>
+          <p>Price: {item.total}</p>
+          <br></br>
         </div>
       ))}
       {/* <Container
