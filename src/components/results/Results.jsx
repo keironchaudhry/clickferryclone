@@ -18,27 +18,6 @@ export default function Results({
 }) {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, [filteredData, route, selectedDate, adults, children, babies]);
-
-  const fetchData = async () => {
-    try {
-      const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
-      const response = await fetch(
-        `https://tadpole.clickferry.app/accommodations?route=${route}&time=${formattedDate}&adults=${adults}&children=${children}&babies=${babies}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response invalid.");
-      }
-      const apiData = await response.json();
-      setData(apiData);
-      console.log(apiData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Selected persons and accomodation.");
@@ -48,12 +27,15 @@ export default function Results({
     <div>
       {filteredData?.map((item, index) => (
         <div key={index}>
-          <p>Destination: {item.operator}</p>
-          <p>Departure: {new Date(item.arrival).toLocaleTimeString()}</p>
-          <p>Ship: {item.ship}</p>
-          <p>Code: {item.code}</p>
-          <p>Name: {item.name}</p>
-          <p>Price: {item.total}</p>
+          <p>Destination: {item.operator || " "}</p>
+          <p>
+            Departure:{" "}
+            {item.arrival ? new Date(item.arrival).toLocaleTimeString() : " "}
+          </p>
+          <p>Ship: {item.ship || " "}</p>
+          <p>Code: {item.code || " "}</p>
+          <p>Name: {item.name || " "}</p>
+          {/* <p>Price: {item.total}</p> */}
           <br></br>
         </div>
       ))}

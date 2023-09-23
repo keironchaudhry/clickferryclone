@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 import styles from "./SearchEngine.module.css";
@@ -22,9 +22,8 @@ export default function SearchEngine() {
   const [children, setChildren] = useState(0);
   const [babies, setBabies] = useState(0);
 
-  // Data handlers
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [departureData, setDepartureData] = useState([]);
+  const [accommodationData, setAccommodationData] = useState([]);
 
   const handleRouteChange = (event) => {
     setRoute(event.target.value);
@@ -60,13 +59,13 @@ export default function SearchEngine() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchData();
+    fetchDepartureData();
+    fetchAccommodationData();
   };
 
-  const fetchData = async () => {
+  const fetchDepartureData = async () => {
     try {
       const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
-      console.log(formattedDate);
       const response = await fetch(
         `https://tadpole.clickferry.app/departures?route=${route}&time=${formattedDate}`
       );
@@ -74,30 +73,27 @@ export default function SearchEngine() {
         throw new Error("Network response invalid.");
       }
       const apiData = await response.json();
-      setData(apiData);
-      console.log(apiData);
+      setDepartureData(apiData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching departure data:", error);
     }
   };
 
-  const filterData = () => {
-    const filteredResult = data.filter((item) => {
-      if (route && item.route !== route) {
-        return false;
+  const fetchAccommodationData = async () => {
+    try {
+      const formattedDate = dayjs(selectedDate).format("YYYY-MM-DDTHH:mm");
+      const response = await fetch(
+        `https://tadpole.clickferry.app/accommodations?route=${route}&time=${formattedDate}&adults=${adults}&children=${children}&babies=${babies}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response invalid.");
       }
-      return true;
-    });
-    setFilteredData(filteredResult);
+      const apiData = await response.json();
+      setAccommodationData(apiData);
+    } catch (error) {
+      console.error("Error fetching accommodation data:", error);
+    }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    filterData();
-  }, [data, route]);
 
   return (
     <div>
@@ -137,7 +133,7 @@ export default function SearchEngine() {
 
         {/* Datepicker */}
         {selectedOption === "datepicker" && (
-          <DatePicker
+          <DateTimePicker
             value={selectedDate == null ? "null" : selectedDate}
             onChange={handleDateChange}
             referenceDate={dayjs("2023-09-22T15:30")}
@@ -213,7 +209,8 @@ export default function SearchEngine() {
         adults={adults}
         children={children}
         babies={babies}
-        filteredData={filteredData}
+        departureData={departureData}
+        accommodationData={accommodationData}
       />
     </div>
   );
