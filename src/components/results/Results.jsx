@@ -24,12 +24,31 @@ export default function Results({
           className={styles.formContainer}
           sx={{ borderRadius: 3 }}
         >
-          <Grid container sx={{ padding: 1.5, margin: 1, minWidth: 450 }}>
-            <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
+          <Grid
+            container
+            sx={{ padding: 1.5, margin: 1, minWidth: 450, fontSize: 15 }}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={2}
+              sx={{ marginTop: 1 }}
+            >
               <Sailing sx={{ marginRight: 1 }} className={styles.iconSize} />{" "}
               {departure?.operator || " "}, {departure?.ship || " "}
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
+            <Grid item xs={12} sm={6} md={4} lg={2} sx={{ marginTop: 1 }}>
+              Departure:{" "}
+              {departure?.time
+                ? new Date(departure?.time).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })
+                : " "}
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2} sx={{ marginTop: 1 }}>
               Arrival:{" "}
               {departure?.arrival
                 ? new Date(departure?.arrival).toLocaleTimeString([], {
@@ -38,16 +57,14 @@ export default function Results({
                   })
                 : " "}
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
+            <Grid item xs={12} sm={6} md={4} lg={2} sx={{ marginTop: 1 }}>
               {accommodationData?.map((accommodation, index) => (
                 <div key={index}>
-                  <p>
-                    Cabin type: {accommodation.name || " "}
-                  </p>
+                  <p>Cabin type: {accommodation.name || " "}</p>
                 </div>
               ))}
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
+            <Grid item xs={12} sm={6} md={4} lg={2} sx={{ marginTop: 1 }}>
               Price: {priceData?.total || " "}.00 €
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -55,6 +72,7 @@ export default function Results({
                 onClick={handleSubmit}
                 variant="contained"
                 color="primary"
+                sx={{ marginTop: 1, marginLeft: 4 }}
               >
                 Select
               </Button>
