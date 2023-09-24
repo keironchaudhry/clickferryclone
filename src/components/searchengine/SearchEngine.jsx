@@ -282,9 +282,7 @@ export default function SearchEngine() {
       </Container>
       {loading ? (
         <p>Loading...</p>
-      ) : showNoFerries &&
-        departureData.length === 0 &&
-        accommodationData.length === 0 ? (
+      ) : showNoFerries ? (
         <p>No ferries available</p>
       ) : departureData.length > 0 &&
         accommodationData.length > 0 &&
