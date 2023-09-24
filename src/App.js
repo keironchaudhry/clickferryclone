@@ -12,7 +12,6 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Navbar />
         <SearchEngine />
-        <Results />
       </LocalizationProvider>
     </div>
   );

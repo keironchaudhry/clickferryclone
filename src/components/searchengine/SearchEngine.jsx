@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
@@ -22,12 +22,21 @@ export default function SearchEngine() {
   const [children, setChildren] = useState(0);
   const [babies, setBabies] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [showNoFerries, setShowNoFerries] = useState(false);
+  const [showAdultsWarning, setShowAdultsWarning] = useState(false);
+  const [showDateWarning, setShowDateWarning] = useState(false);
+  const [showRouteWarning, setShowRouteWarning] = useState(false);
+
   const [departureData, setDepartureData] = useState([]);
   const [accommodationData, setAccommodationData] = useState([]);
+  const [priceData, setPriceData] = useState([]);
 
   const handleRouteChange = (event) => {
     setRoute(event.target.value);
     console.log("Route:" + event.target.value);
+    setShowRouteWarning(false);
   };
 
   const handleOptionChange = (event) => {
@@ -37,12 +46,16 @@ export default function SearchEngine() {
   const handleDateChange = (selectedDate) => {
     setSelectedDate(selectedDate);
     console.log("Date:" + selectedDate);
+    setShowDateWarning(false);
   };
 
   const handleAdultsChange = (event) => {
     const selectedValue = event.target.value;
     setAdults(selectedValue);
     console.log("Adults:" + selectedValue);
+
+    // Hide the warning message when at least 1 adult is selected
+    setShowAdultsWarning(false);
   };
 
   const handleChildrenChange = (event) => {
@@ -57,11 +70,44 @@ export default function SearchEngine() {
     console.log("Babies:" + selectedValue);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    fetchDepartureData();
-    fetchAccommodationData();
+
+    if (adults === 0) {
+      setShowAdultsWarning(true);
+      return;
+    }
+
+    if (selectedDate == null) {
+      setShowDateWarning(true);
+      return;
+    }
+
+    if (route === "") {
+      setShowRouteWarning(true);
+      return;
+    }
+
+    setDepartureData([]);
+    setAccommodationData([]);
+    setPriceData([]);
+
+    setLoading(true);
+
+    await fetchDepartureData();
+    await fetchAccommodationData();
+    setLoading(false);
+
+    // Set the flag to true when data has been fetched
+    setHasFetchedData(true);
+
+    // Update the flag to show "No ferries available" when appropriate
+    setShowNoFerries(departureData.length === 0 && hasFetchedData);
   };
+
+  useEffect(() => {
+    fetchPriceData();
+  }, [accommodationData]);
 
   const fetchDepartureData = async () => {
     try {
@@ -95,6 +141,24 @@ export default function SearchEngine() {
     }
   };
 
+  const fetchPriceData = async () => {
+    try {
+      const formattedDate = dayjs(selectedDate).format("YYYY-MM-DDTHH:mm");
+      const code = accommodationData[0]?.code || "";
+      console.log("Code:" + code);
+      const response = await fetch(
+        `https://tadpole.clickferry.app/price?route=${route}&time=${formattedDate}&adults=${adults}&children=${children}&babies=${babies}&accommodation=${code}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response invalid.");
+      }
+      const apiData = await response.json();
+      setPriceData(apiData);
+    } catch (error) {
+      console.error("Error fetching accommodation data:", error);
+    }
+  };
+
   return (
     <div>
       <Container sx={{ borderRadius: 3 }} className={styles.formContainer}>
@@ -114,6 +178,10 @@ export default function SearchEngine() {
             <MenuItem value="CEUTALGE">Ceuta - Algeciras</MenuItem>
           </Select>
         </FormControl>
+
+        {showRouteWarning && (
+          <p style={{ color: "red" }}>Please select a route.</p>
+        )}
 
         {/* Date */}
         <FormControl sx={{ m: 1, minWidth: 150 }}>
@@ -140,6 +208,10 @@ export default function SearchEngine() {
           />
         )}
 
+        {showDateWarning && (
+          <p style={{ color: "red" }}>Please select a date.</p>
+        )}
+
         {/* Adults */}
         <FormControl sx={{ m: 1, minWidth: 80 }}>
           <InputLabel id="demo-simple-select-label">Adults</InputLabel>
@@ -157,6 +229,10 @@ export default function SearchEngine() {
             <MenuItem value={4}>4</MenuItem>
           </Select>
         </FormControl>
+
+        {showAdultsWarning && (
+          <p style={{ color: "red" }}>Please select at least 1 adult.</p>
+        )}
 
         {/* Children */}
         <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -199,19 +275,26 @@ export default function SearchEngine() {
           variant="contained"
           color="success"
           onClick={handleSubmit}
+          // disabled={!isSearchEnabled}
         >
           Search
         </Button>
       </Container>
-      <Results
-        route={route}
-        selectedDate={selectedDate}
-        adults={adults}
-        children={children}
-        babies={babies}
-        departureData={departureData}
-        accommodationData={accommodationData}
-      />
+      {loading ? (
+        <p>Loading...</p>
+      ) : showNoFerries &&
+        departureData.length === 0 &&
+        accommodationData.length === 0 ? (
+        <p>No ferries available</p>
+      ) : departureData.length > 0 &&
+        accommodationData.length > 0 &&
+        priceData.total !== null ? (
+        <Results
+          departureData={departureData}
+          accommodationData={accommodationData}
+          priceData={priceData}
+        />
+      ) : null}
     </div>
   );
 }

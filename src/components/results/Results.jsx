@@ -9,54 +9,55 @@ import { Grid } from "@mui/material";
 import dayjs from "dayjs";
 
 export default function Results({
-  route,
-  selectedDate,
-  adults,
-  children,
-  babies,
-  filteredData,
+  departureData,
+  accommodationData,
+  priceData,
 }) {
-  const [data, setData] = useState([]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Selected persons and accomodation.");
   };
 
   return (
+    // <div>
+    //   {departureData?.map((item, index) => (
+    //     <div key={index}>
+    //       <p>Destination: {item.operator || " "}</p>
+    //       <p>
+    //         Departure:{" "}
+    //         {item.arrival ? new Date(item.arrival).toLocaleTimeString() : " "}
+    //       </p>
+    //       <p>Ship: {item.ship || " "}</p>
+    //       <br></br>
+    //     </div>
+    //   ))}
+
+    //   {accommodationData?.map((item, index) => (
+    //     <div key={index}>
+    //       <p>Accommodation: {item.code || " "}</p>
+    //       <p>Room Type: {item.name || " "}</p>
+    //       <br></br>
+    //     </div>
+    //   ))}
+
+    // <p>Price: {priceData?.total || " "}</p>
     <div>
-      {filteredData?.map((item, index) => (
-        <div key={index}>
-          <p>Destination: {item.operator || " "}</p>
-          <p>
-            Departure:{" "}
-            {item.arrival ? new Date(item.arrival).toLocaleTimeString() : " "}
-          </p>
-          <p>Ship: {item.ship || " "}</p>
-          <p>Code: {item.code || " "}</p>
-          <p>Name: {item.name || " "}</p>
-          {/* <p>Price: {item.total}</p> */}
-          <br></br>
-        </div>
-      ))}
-      {/* <Container
-        key={index}
-        className={styles.formContainer}
-        sx={{ borderRadius: 3 }}
-      >
+      <Container className={styles.formContainer} sx={{ borderRadius: 3 }}>
         <Grid container sx={{ padding: 1.5, margin: 1.5, minWidth: 500 }}>
           <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
             <PlaceIcon sx={{ marginRight: 1 }} className={styles.iconSize} />{" "}
-            place
+            {departureData?.[0]?.operator || " "}{" "}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
-            time
+            {departureData?.[0]?.arrival
+              ? new Date(departureData[0].arrival).toLocaleTimeString()
+              : " "}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
-            arrival
+            {departureData?.[0]?.ship || " "}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={2.5} sx={{ marginTop: 1 }}>
-            Price: 
+            Price: {priceData?.total || " "}
           </Grid>
           <Grid item xs={12} lg={2}>
             <Button
@@ -69,7 +70,7 @@ export default function Results({
             </Button>
           </Grid>
         </Grid>
-      </Container> */}
+      </Container>
     </div>
   );
 }
