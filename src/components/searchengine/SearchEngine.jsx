@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 
 import styles from "./SearchEngine.module.css";
 import Results from "../results/Results";
+import { CircularProgress } from "@mui/material";
 
 export default function SearchEngine() {
   // User parameters
@@ -22,13 +23,14 @@ export default function SearchEngine() {
   const [children, setChildren] = useState(0);
   const [babies, setBabies] = useState(0);
 
+  // Data flags
   const [loading, setLoading] = useState(false);
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const [showNoFerries, setShowNoFerries] = useState(false);
   const [showAdultsWarning, setShowAdultsWarning] = useState(false);
   const [showDateWarning, setShowDateWarning] = useState(false);
   const [showRouteWarning, setShowRouteWarning] = useState(false);
 
+  // Data
   const [departureData, setDepartureData] = useState([]);
   const [accommodationData, setAccommodationData] = useState([]);
   const [priceData, setPriceData] = useState([]);
@@ -39,6 +41,7 @@ export default function SearchEngine() {
     setShowRouteWarning(false);
   };
 
+  // This function is called when the user selects a date
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -100,11 +103,9 @@ export default function SearchEngine() {
 
     // Set the flag to true when data has been fetched
     setHasFetchedData(true);
-
-    // Update the flag to show "No ferries available" when appropriate
-    setShowNoFerries(departureData.length === 0 && hasFetchedData);
   };
 
+  // Fetches the price data when accomodation data has been stored
   useEffect(() => {
     fetchPriceData();
   }, [accommodationData]);
@@ -122,6 +123,7 @@ export default function SearchEngine() {
       setDepartureData(apiData);
     } catch (error) {
       console.error("Error fetching departure data:", error);
+      setHasFetchedData(true);
     }
   };
 
@@ -138,6 +140,7 @@ export default function SearchEngine() {
       setAccommodationData(apiData);
     } catch (error) {
       console.error("Error fetching accommodation data:", error);
+      setHasFetchedData(true);
     }
   };
 
@@ -275,24 +278,34 @@ export default function SearchEngine() {
           variant="contained"
           color="success"
           onClick={handleSubmit}
-          // disabled={!isSearchEnabled}
         >
           Search
         </Button>
       </Container>
+
+      {/* Results component */}
       {loading ? (
-        <p>Loading...</p>
-      ) : showNoFerries ? (
-        <p>No ferries available</p>
-      ) : departureData.length > 0 &&
-        accommodationData.length > 0 &&
-        priceData.total !== null ? (
-        <Results
-          departureData={departureData}
-          accommodationData={accommodationData}
-          priceData={priceData}
-        />
-      ) : null}
+        // When loading
+        <div className={styles.spinnerContainer}>
+          <CircularProgress />
+        </div>
+      ) : departureData?.length === 0 && hasFetchedData ? (
+        // When no data is available
+        <div className={styles.noFerriesAvailable}>
+          <p>No ferries available for these dates.</p>
+        </div>
+      ) : (
+        // When data is available
+        departureData?.length > 0 &&
+        accommodationData?.length > 0 &&
+        priceData?.total !== null && (
+          <Results
+            departureData={departureData}
+            accommodationData={accommodationData}
+            priceData={priceData}
+          />
+        )
+      )}
     </div>
   );
 }

@@ -6,3 +6,19 @@
   justify-content: space-around !important;
   align-items: center;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 25vh;
+}
+
+.noFerriesAvailable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+  font-size: 25px;
+  font-weight: 700;
+}
