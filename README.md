@@ -16,15 +16,15 @@ formulario):_
 
 * Cómo aparece la búsqueda en el landing page
 
-    ![foto1](/client/clickferryclone/documentation/screenshots/clickferries1.png)
+    ![foto1](/clickferryclone/documentation/screenshots/clickferries1.png)
 
 * Despúes de buscar un viaje y con los resultados de la búsqueda:
 
-    ![foto2](/client/clickferryclone/documentation/screenshots/clickferries2.png)
+    ![foto2](/clickferryclone/documentation/screenshots/clickferries2.png)
 
 * En caso de que no haya resultados disponibles con los parametros del usuario:
 
-    ![foto3](/client/clickferryclone/documentation/screenshots/clickferries3.png)
+    ![foto3](/clickferryclone/documentation/screenshots/clickferries3.png)
 
 ## Bugs
 
