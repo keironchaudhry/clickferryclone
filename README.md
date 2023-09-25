@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Prueba Tecnica
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Objetivo
 
-## Available Scripts
+_La prueba consiste en implementar un buscador y comparador de precios de billetes de
+ferry consultando una API que será provista al implementador. Consistirá en 3 partes
+principales_
 
-In the project directory, you can run:
+* _Recoger los parámetros de la búsqueda del usuario (por ejemplo, mediante un
+formulario):_
+    - _Ruta: Solo habrá dos rutas disponibles, Algeciras - Ceuta (ALGECEUT) y Ceuta-Algeciras (CEUTALGE)_
+    - _Fecha de la salida_
+    - _Número de pasajeros separados entre adultos, niños y bebés. 2. Consultar la API con los parámetros recogidos para recibir los resultados 3. Mostrar tanta información como sea posible de cada combinación (fechas y horas de salida/llegada, nombres de la naviera (operador), nombre de la acomodación, precio)_
 
-### `npm start`
+## Capturas de pantalla
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Cómo aparece la búsqueda en el landing page
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    ![foto1](/client/clickferryclone/documentation/screenshots/clickferries1.png)
 
-### `npm test`
+* Despúes de buscar un viaje y con los resultados de la búsqueda:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ![foto2](/client/clickferryclone/documentation/screenshots/clickferries2.png)
 
-### `npm run build`
+* En caso de que no haya resultados disponibles con los parametros del usuario:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ![foto3](/client/clickferryclone/documentation/screenshots/clickferries3.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Bugs
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Por lo que veo de momento, hay un bug que occurre de vez en cuando al buscar una fecha donde no se dispone de viajes. Basicamente, en vez de mostrar al usuario "No ferries available", la pagina queda blanca. No se occurre siempre pero a veces. 
 
-### `npm run eject`
+Una fecha que 100% funciona es el 24/09/2023 a las 23h00, por ejemplo.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tecnologia utilizado
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+La aplicacion utiliza los siguientes libraries:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* [Material UI](https://mui.com/material-ui/getting-started/) para el diseno general y para los componentes
+* [DayJS](https://day.js.org/) para formatear las horas recibidas de llegadas y salidas
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Credito
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* [ClickFerry](https://www.clickferry.com/es) para conseguir una idea de como funciona ya los parametros en la aplicacion autentica
+* [Stack Overflow](https://stackoverflow.com/) para soluciones, especialmente cuando tenia problemas con los APIs
+* El uso de [ChatGPT](https://openai.com/blog/chatgpt) fue empleado para ayudar con el debugging de la aplicacion 
